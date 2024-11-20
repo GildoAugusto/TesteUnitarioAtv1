@@ -51,3 +51,16 @@ class ServiceUser:
             return "Usuário não existe!"
 
         return "Um dos parâmetros está vazio"
+
+    def get_user_by_name(self, name):
+
+        if name is not None:
+            if type(name) != str:
+                return "Nome não é do tipo string"
+
+            for db_user in self.store.bd:
+                if name == db_user.name:
+                    return db_user
+            return "Usuário não existe!"
+
+        return "Nome está vazio"

@@ -1,3 +1,4 @@
+from src.models.user import User
 from src.service.service_user import ServiceUser
 
 
@@ -143,4 +144,59 @@ class TestServiceUser:
         resultado = service.update_user("Gildo 02", "Analista")
 
         # Avaliação
+        assert resultado == resultado_esperado
+
+
+#TESTANDO MÉTODO GET_USER
+    def test_get_user_successo(self):
+        # Setup
+        service = ServiceUser()
+        service.add_user("Vitor", "Analista")
+        resultado_esperado = ("Vitor", "Analista")
+
+        # Chamada
+        user = service.get_user_by_name("Vitor")
+        resultado = (user.name, user.job)
+
+        # Validação
+        assert type(user) == User
+        assert resultado == resultado_esperado
+
+
+    def test_get_user_falha_none(self):
+        # Setup
+        service = ServiceUser()
+        service.add_user("Vitor", "Analista")
+        resultado_esperado = "Nome está vazio"
+
+        # Chamada
+        resultado = service.get_user_by_name(None)
+
+        # Validação
+        assert resultado == resultado_esperado
+
+
+    def test_get_user_falha_tipo(self):
+        # Setup
+        service = ServiceUser()
+        service.add_user("Vitor", "Analista")
+        resultado_esperado = "Nome não é do tipo string"
+
+        # Chamada
+        resultado = service.get_user_by_name([])
+
+        # Validação
+        assert resultado == resultado_esperado
+
+
+    def test_get_user_nao_repetido(self):
+        # Setup
+        service = ServiceUser()
+        service.add_user("Vitor", "Analista")
+        resultado_esperado = "Usuário não existe!"
+
+        # Chamada
+        resultado = service.get_user_by_name("Gildo")
+
+        # Validação
         assert resultado == resultado_esperado
